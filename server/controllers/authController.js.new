@@ -1,0 +1,182 @@
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const { validationResult } = require('express-validator');
+const { setTokenCookie } = require('../middleware/auth');
+const clearTokenCookies = require('../utils/clearCookies');
+
+// Generate JWT Token
+const generateToken = (id, secret) => {
+  return jwt.sign({ id }, secret, {
+    expiresIn: '24h'
+  });
+};
+
+// @desc    Register user
+// @route   POST /api/auth/register
+// @access  Public
+const registerUser = async (req, res) => {
+  try {
+    console.log('Registration attempt:', { ...req.body, password: '[REDACTED]' });
+    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log('Validation errors:', errors.array());
+      return res.status(400).json({
+        success: false,
+        message: 'Validation errors',
+        errors: errors.array()
+      });
+    }
+
+    const { name, email, password } = req.body;
+
+    // Check if user already exists
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      console.log('User already exists:', email);
+      return res.status(400).json({
+        success: false,
+        message: 'User already exists with this email'
+      });
+    }
+
+    // Create new user instance
+    const user = new User({
+      name,
+      email,
+      password,
+      role: 'user' // Explicitly set role as user
+    });
+
+    try {
+      // Save user to database
+      console.log('Attempting to save user:', { name, email });
+      await user.save();
+      console.log('User saved successfully:', { id: user._id });
+
+      // Generate token after successful save
+      const token = generateToken(user._id, process.env.JWT_SECRET);
+      console.log('Token generated for user:', { id: user._id });
+      
+      // Set HTTP-only cookie
+      setTokenCookie(res, token, false);
+      
+      res.status(201).json({
+        success: true,
+        message: 'User registered successfully',
+        data: {
+          user: {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+          }
+        }
+      });
+    } catch (saveError) {
+      console.error('User save error:', saveError);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to create user account'
+      });
+    }
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during registration'
+    });
+  }
+};
+
+// @desc    Login user
+// @route   POST /api/auth/login
+// @access  Public
+const loginUser = async (req, res) => {
+  try {
+    console.log('Login attempt:', { email: req.body.email });
+    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log('Validation errors:', errors.array());
+      return res.status(400).json({
+        success: false,
+        message: 'Validation errors',
+        errors: errors.array()
+      });
+    }
+
+    const { email, password } = req.body;
+
+    // Find user and include password for comparison
+    const user = await User.findOne({ email }).select('+password');
+    console.log('User found:', user ? { id: user._id, email: user.email } : 'No user found');
+    
+    if (!user || !user.isActive || !(await user.comparePassword(password))) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid email or password'
+      });
+    }
+
+    // Update last login
+    user.lastLogin = new Date();
+    await user.save();
+    console.log('Updated last login for user:', { id: user._id });
+
+    const token = generateToken(user._id, process.env.JWT_SECRET);
+    console.log('Generated token for user:', { id: user._id });
+    
+    // Set HTTP-only cookie
+    setTokenCookie(res, token, false);
+    
+    res.json({
+      success: true,
+      message: 'Login successful',
+      data: {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during login'
+    });
+  }
+};
+
+// @desc    Logout user
+// @route   POST /api/auth/logout
+// @access  Private
+const logoutUser = async (req, res) => {
+  try {
+    console.log('Logout attempt for user:', req.user?.id);
+    
+    // Clear all auth cookies
+    clearTokenCookies(res);
+    
+    res.json({
+      success: true,
+      message: 'Logged out successfully'
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during logout'
+    });
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  logoutUser,
+  generateToken
+};
