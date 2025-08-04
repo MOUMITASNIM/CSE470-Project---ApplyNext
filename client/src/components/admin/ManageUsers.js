@@ -26,7 +26,11 @@ const ManageUsers = () => {
   const fetchUsers = async () => {
     try {
       const res = await axios.get('/api/admin/users', {
-        withCredentials: true
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${document.cookie.split('adminToken=')[1]?.split(';')[0]}`
+        }
       });
       if (res.data.success) {
         setUsers(res.data.data || []);

@@ -119,8 +119,7 @@ const Courses = () => {
           <p className="text-gray-600">Discover world-class education opportunities from leading universities</p>
         </div>
 
-        {/* Search and Filters - Commented out for now */}
-        {/*
+        {/* Search and Filters */}
         <div className="card p-6 mb-8">
           <form onSubmit={handleSearch} className="space-y-6">
             <div className="relative">
@@ -144,7 +143,7 @@ const Courses = () => {
                 >
                   <option value="">All Countries</option>
                   {countries.map(country => (
-                    <option key={country} value={country}>{country}</option>
+                    <option key={country} value={country.toLowerCase()}>{country}</option>
                   ))}
                 </select>
               </div>
@@ -200,7 +199,7 @@ const Courses = () => {
             </div>
           </form>
         </div>
-        */}
+        
 
         {/* Results */}
         <div className="mb-6">

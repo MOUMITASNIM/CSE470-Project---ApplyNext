@@ -3,8 +3,14 @@ const User = require('../models/User');
 
 const verifyAdmin = async (req, res, next) => {
     try {
-        // Get token from the cookies
-        const token = req.cookies.adminToken;
+        // Get token from cookies or Authorization header
+        let token = req.cookies.adminToken;
+        
+        // Check Authorization header if no cookie
+        const authHeader = req.headers.authorization;
+        if (!token && authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.split(' ')[1];
+        }
 
         if (!token) {
             return res.status(401).json({

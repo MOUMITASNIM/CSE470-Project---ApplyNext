@@ -79,8 +79,6 @@ const Home = () => {
               </div>
             </div>
             <div className="relative">
-              {/* Quick Search - Commented out for now */}
-              {/*
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
                 <div className="space-y-6">
                   <h3 className="text-2xl font-semibold">Quick Search</h3>
@@ -95,26 +93,30 @@ const Home = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <select className="w-full px-4 py-3 bg-white/90 text-gray-900 rounded-lg focus:ring-2 focus:ring-white focus:outline-none">
-                        <option>Select Country</option>
-                        <option>Canada</option>
-                        <option>Australia</option>
-                        <option>UK</option>
-                        <option>USA</option>
+                        <option value="">Select Country</option>
+                        <option value="canada">Canada</option>
+                        <option value="australia">Australia</option>
+                        <option value="uk">United Kingdom</option>
+                        <option value="usa">United States</option>
+                        <option value="germany">Germany</option>
                       </select>
                       <select className="w-full px-4 py-3 bg-white/90 text-gray-900 rounded-lg focus:ring-2 focus:ring-white focus:outline-none">
-                        <option>Select Level</option>
-                        <option>Undergraduate</option>
-                        <option>Graduate</option>
-                        <option>PhD</option>
+                        <option value="">Select Level</option>
+                        <option value="bachelors">Bachelor's</option>
+                        <option value="masters">Master's</option>
+                        <option value="phd">PhD</option>
                       </select>
                     </div>
-                    <button className="w-full btn-primary bg-white text-primary-600 hover:bg-gray-100">
-                      Search Now
-                    </button>
+                    <Link 
+                      to="/courses" 
+                      className="btn-primary bg-white text-primary-600 hover:bg-gray-100 w-full flex justify-center items-center"
+                    >
+                      Search Courses
+                      <Search className="ml-2 h-5 w-5" />
+                    </Link>
                   </div>
                 </div>
               </div>
-              */}
             </div>
           </div>
         </div>

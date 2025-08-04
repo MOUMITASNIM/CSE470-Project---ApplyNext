@@ -75,7 +75,7 @@ const AdminLogin = () => {
     try {
       // Admin credentials
       const adminCreds = {
-        email: 'admin@admin.com',  // Hardcoded admin email
+        email: 'admin@gmail.com',  // Hardcoded admin email
         password: 'admin123'      // Hardcoded admin password
       };
 
