@@ -1,4 +1,4 @@
-# 🌍 Global Education Platform
+# 🌍 A Global Education Platform -- ApplyNext
 
 A full-stack MERN (MongoDB, Express.js, React, Node.js) application for discovering and managing global education opportunities. Built with modern web technologies and inspired by leading education platforms like IDP.
 
