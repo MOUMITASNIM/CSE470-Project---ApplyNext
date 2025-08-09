@@ -62,7 +62,7 @@ const Home = () => {
             <div className="space-y-8">
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
                 Your Gateway to
-                <span className="block text-yellow-300">Global Education</span>
+                <span className="block text-yellow-300">ApplyNext</span>
               </h1>
               <p className="text-xl lg:text-2xl text-gray-100 leading-relaxed">
                 Discover world-class universities, courses, and scholarships from around the globe. 
@@ -79,6 +79,7 @@ const Home = () => {
               </div>
             </div>
             <div className="relative">
+              {
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
                 <div className="space-y-6">
                   <h3 className="text-2xl font-semibold">Quick Search</h3>
@@ -93,30 +94,26 @@ const Home = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <select className="w-full px-4 py-3 bg-white/90 text-gray-900 rounded-lg focus:ring-2 focus:ring-white focus:outline-none">
-                        <option value="">Select Country</option>
-                        <option value="canada">Canada</option>
-                        <option value="australia">Australia</option>
-                        <option value="uk">United Kingdom</option>
-                        <option value="usa">United States</option>
-                        <option value="germany">Germany</option>
+                        <option>Select Country</option>
+                        <option>Canada</option>
+                        <option>Australia</option>
+                        <option>UK</option>
+                        <option>USA</option>
                       </select>
                       <select className="w-full px-4 py-3 bg-white/90 text-gray-900 rounded-lg focus:ring-2 focus:ring-white focus:outline-none">
-                        <option value="">Select Level</option>
-                        <option value="bachelors">Bachelor's</option>
-                        <option value="masters">Master's</option>
-                        <option value="phd">PhD</option>
+                        <option>Select Level</option>
+                        <option>Undergraduate</option>
+                        <option>Graduate</option>
+                        <option>PhD</option>
                       </select>
                     </div>
-                    <Link 
-                      to="/courses" 
-                      className="btn-primary bg-white text-primary-600 hover:bg-gray-100 w-full flex justify-center items-center"
-                    >
-                      Search Courses
-                      <Search className="ml-2 h-5 w-5" />
-                    </Link>
+                    <button className="w-full btn-primary bg-white text-primary-600 hover:bg-gray-100">
+                      Search Now
+                    </button>
                   </div>
                 </div>
               </div>
+              }
             </div>
           </div>
         </div>
@@ -143,7 +140,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose Global Education?
+              Why Choose ApplyNext?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               We provide comprehensive support to help you achieve your international education dreams

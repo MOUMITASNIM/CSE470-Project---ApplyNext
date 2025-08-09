@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <GraduationCap className="h-8 w-8 text-primary-400" />
-              <span className="text-xl font-bold">Global Education</span>
+              <span className="text-xl font-bold">ApplyNext</span>
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
               Your gateway to world-class education opportunities. Discover universities, 
@@ -66,11 +66,11 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-primary-400" />
-                <span className="text-gray-300">info@globaleducation.com</span>
+                <span className="text-gray-300">info@applynext.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-primary-400" />
-                <span className="text-gray-300">+1 (555) 123-4567</span>
+                <span className="text-gray-300">01700000000</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-primary-400" />
@@ -83,7 +83,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Global Education Platform. All rights reserved.
+            © 2024 ApplyNext Platform. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-primary-400 text-sm transition-colors duration-200">

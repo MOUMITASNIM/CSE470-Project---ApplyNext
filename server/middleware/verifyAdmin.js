@@ -3,14 +3,8 @@ const User = require('../models/User');
 
 const verifyAdmin = async (req, res, next) => {
     try {
-        // Get token from cookies or Authorization header
-        let token = req.cookies.adminToken;
-        
-        // Check Authorization header if no cookie
-        const authHeader = req.headers.authorization;
-        if (!token && authHeader && authHeader.startsWith('Bearer ')) {
-            token = authHeader.split(' ')[1];
-        }
+        // Get token from the cookies
+        const token = req.cookies.adminToken;
 
         if (!token) {
             return res.status(401).json({
@@ -20,8 +14,8 @@ const verifyAdmin = async (req, res, next) => {
         }
 
         try {
-            // Verify token using admin secret
-            const decoded = jwt.verify(token, process.env.JWT_ADMIN_SECRET);
+            // Verify token using admin secret with fallback
+            const decoded = jwt.verify(token, process.env.JWT_ADMIN_SECRET || 'your-admin-secret-key');
             
             if (decoded.role !== 'admin') {
                 return res.status(403).json({

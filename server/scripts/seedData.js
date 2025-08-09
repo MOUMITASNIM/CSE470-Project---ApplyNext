@@ -8,37 +8,6 @@ const Course = require('../models/Course');
 // Sample courses data
 const sampleCourses = [
   {
-    title: "BSc in Computer Science and Engineering",
-    description: "A comprehensive program in computer science and engineering with focus on software development, algorithms, and system design. Includes practical projects and industry internships.",
-    university: "BRAC University",
-    country: "Bangladesh",
-    city: "Dhaka",
-    level: "Undergraduate",
-    field: "Computer Science",
-    duration: "4 years",
-    tuitionFee: 10000,
-    currency: "USD",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-    universityLogo: "https://images.unsplash.com/photo-1535982330050-f1c2fb79ff78?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
-    requirements: [
-      "HSC/A-Level with minimum GPA 3.5",
-      "English proficiency",
-      "Admission test qualification",
-      "Mathematics background"
-    ],
-    highlights: [
-      "Modern curriculum",
-      "Industry-experienced faculty",
-      "Hands-on programming labs",
-      "Career placement support"
-    ],
-    applicationDeadline: new Date('2024-06-30'),
-    startDate: new Date('2024-09-01'),
-    featured: true,
-    rating: 4.5,
-    totalReviews: 120
-  },
-  {
     title: "Master of Computer Science",
     description: "Advanced program in computer science with focus on artificial intelligence and machine learning. Gain expertise in cutting-edge technologies and research methodologies.",
     university: "University of Toronto",
@@ -206,7 +175,7 @@ const adminUser = {
 const seedDatabase = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/global_education');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/applynext');
     console.log('✅ Connected to MongoDB');
 
     // Clear existing data

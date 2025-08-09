@@ -5,44 +5,80 @@ const Course = require('../models/Course');
 // @access  Public
 const getAllCourses = async (req, res) => {
   try {
-    const { page = 1, limit = 10, search, country, level, field } = req.query;
-    
-    let query = { isActive: true };
-    
-    // Search functionality
+    const {
+      page = 1,
+      limit = 9,
+      search,
+      country,
+      level,
+      field,
+      city,
+      featured,
+      currency,
+      duration, // substring match e.g., '2 years'
+      minFee,
+      maxFee,
+      minRating,
+      sort = 'newest'
+    } = req.query;
+
+    const numericLimit = Math.max(1, Math.min(50, parseInt(limit, 10) || 9));
+    const numericPage = Math.max(1, parseInt(page, 10) || 1);
+
+    const query = { isActive: true };
+
+    // Text search across indexed fields
     if (search) {
       query.$text = { $search: search };
     }
-    
-    // Filter by country
-    if (country) {
-      query.country = { $regex: country, $options: 'i' };
-    }
-    
-    // Filter by level
-    if (level) {
-      query.level = level;
-    }
-    
-    // Filter by field
-    if (field) {
-      query.field = { $regex: field, $options: 'i' };
+
+    if (country) query.country = { $regex: country, $options: 'i' };
+    if (city) query.city = { $regex: city, $options: 'i' };
+    if (level) query.level = level;
+    if (field) query.field = { $regex: field, $options: 'i' };
+    if (currency) query.currency = currency;
+    if (duration) query.duration = { $regex: duration, $options: 'i' };
+    if (featured === 'true') query.featured = true;
+
+    // Tuition fee range
+    if (minFee || maxFee) {
+      query.tuitionFee = {};
+      if (minFee) query.tuitionFee.$gte = Number(minFee);
+      if (maxFee) query.tuitionFee.$lte = Number(maxFee);
     }
 
-    const courses = await Course.find(query)
-      .populate('bookmarkedBy', 'name email')
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort({ createdAt: -1 });
+    // Minimum rating
+    if (minRating) {
+      query.rating = { $gte: Number(minRating) };
+    }
 
-    const total = await Course.countDocuments(query);
+    // Sorting
+    const sortMap = {
+      newest: { createdAt: -1 },
+      oldest: { createdAt: 1 },
+      price_asc: { tuitionFee: 1 },
+      price_desc: { tuitionFee: -1 },
+      rating_desc: { rating: -1 },
+      rating_asc: { rating: 1 },
+      title_asc: { title: 1 },
+      title_desc: { title: -1 }
+    };
+    const sortOption = sortMap[sort] || sortMap.newest;
+
+    const [courses, total] = await Promise.all([
+      Course.find(query)
+        .limit(numericLimit)
+        .skip((numericPage - 1) * numericLimit)
+        .sort(sortOption),
+      Course.countDocuments(query)
+    ]);
 
     res.json({
       success: true,
       data: {
         courses,
-        totalPages: Math.ceil(total / limit),
-        currentPage: page,
+        totalPages: Math.ceil(total / numericLimit),
+        currentPage: numericPage,
         total
       }
     });

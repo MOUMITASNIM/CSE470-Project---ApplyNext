@@ -25,7 +25,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <GraduationCap className="h-8 w-8 text-primary-600" />
-            <span className="text-xl font-bold text-gradient">Global Education</span>
+            <span className="text-xl font-bold text-gradient">ApplyNext</span>
           </Link>
 
           {/* Desktop Navigation */}

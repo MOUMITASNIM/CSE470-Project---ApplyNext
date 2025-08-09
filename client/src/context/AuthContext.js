@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useRef } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -49,9 +49,6 @@ const authReducer = (state, action) => {
         ...state,
         user: action.payload.admin,
         isAdmin: true,
-        isAuthenticated: true,
-        loading: false,
-        isAdmin: true,
         loading: false,
       };
     case 'REGISTER_SUCCESS':
@@ -88,17 +85,6 @@ export const AuthProvider = ({ children }) => {
   // Load user
   const loadUser = async () => {
     try {
-      // Check if token in cookie is expired
-      const token = document.cookie.split('; ').find(row => row.startsWith('token=') || row.startsWith('adminToken='));
-      if (token) {
-        const tokenValue = token.split('=')[1];
-        if (isTokenExpired(tokenValue)) {
-          console.log('Token expired, logging out');
-          await logout();
-          return;
-        }
-      }
-
       // Try to get current user (cookies will be sent automatically)
       const res = await axios.get('/api/auth/me');
       if (res.data.success) {
@@ -111,12 +97,8 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Load user error:', error);
-      // If token is expired or invalid, clear state
-      if (error.response?.status === 401) {
-        await logout();
-      } else {
-        dispatch({ type: 'AUTH_ERROR' });
-      }
+      // If unauthenticated (401), don't force logout toast; just clear auth state
+      dispatch({ type: 'AUTH_ERROR' });
     }
   };
 
@@ -190,12 +172,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Logout
-  const logout = async () => {
+  const logout = async ({ silent } = {}) => {
     try {
       // Call the logout endpoint to clear cookies
       await axios.post('/api/auth/logout');
       dispatch({ type: 'LOGOUT' });
-      toast.success('Logged out successfully');
+      if (!silent) {
+        toast.success('Logged out successfully');
+      }
     } catch (error) {
       console.error('Logout error:', error);
       // Still clear the local state even if the server call fails
@@ -217,7 +201,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Prevent double execution in React.StrictMode
+  const didInitRef = useRef(false);
   useEffect(() => {
+    if (didInitRef.current) return;
+    didInitRef.current = true;
     loadUser();
   }, []);
 

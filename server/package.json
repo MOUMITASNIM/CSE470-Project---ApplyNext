@@ -1,7 +1,7 @@
 {
-  "name": "global-education-server",
+  "name": "applynext-server",
   "version": "1.0.0",
-  "description": "Backend server for Global Education Platform",
+  "description": "Backend server for ApplyNext Platform",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

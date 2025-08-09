@@ -25,7 +25,7 @@ const sendEmail = async (options) => {
 };
 
 const sendPasswordResetEmail = async (email, resetToken, resetUrl) => {
-  const subject = 'Reset your password - Global Education Platform';
+  const subject = 'Reset your password - ApplyNext Platform';
   
   const html = `
     <!DOCTYPE html>
@@ -102,13 +102,13 @@ const sendPasswordResetEmail = async (email, resetToken, resetUrl) => {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">🎓 Global Education Platform</div>
+          <div class="logo">🎓 ApplyNext Platform</div>
           <h1 class="title">Password Reset Request</h1>
         </div>
         
         <div class="content">
           <p>Hello,</p>
-          <p>You have requested to reset your password for your Global Education Platform account.</p>
+          <p>You have requested to reset your password for your ApplyNext Platform account.</p>
           <p>Click the button below to reset your password:</p>
           
           <div style="text-align: center;">
@@ -126,7 +126,7 @@ const sendPasswordResetEmail = async (email, resetToken, resetUrl) => {
         </div>
         
         <div class="footer">
-          <p>This email was sent from Global Education Platform</p>
+          <p>This email was sent from ApplyNext Platform</p>
           <p>If you have any questions, please contact our support team</p>
         </div>
       </div>

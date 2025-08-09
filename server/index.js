@@ -74,7 +74,7 @@ app.use('/api/courses', courseRoutes);
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
-    message: 'Global Education Platform API is running',
+    message: 'ApplyNext Platform API is running',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV
   });
@@ -88,7 +88,7 @@ app.use(errorHandler);
 
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📚 Global Education Platform API ready`);
+  console.log(`📚 ApplyNext Platform API ready`);
   console.log(`🔒 Security features enabled`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
   console.log(`🔌 Socket.IO enabled`);

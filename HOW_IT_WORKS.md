@@ -1,7 +1,7 @@
-# How the Global Education Platform Works
+# How the ApplyNext Platform Works
 
 ## Overview
-The Global Education Platform is a comprehensive web application that connects students with global education opportunities. Here's a detailed breakdown of how the system works.
+The ApplyNext Platform is a comprehensive web application that connects students with global education opportunities. Here's a detailed breakdown of how the system works.
 
 ## System Architecture
 
@@ -198,4 +198,4 @@ The application uses React Context API for state management:
 - Performance monitoring
 - User activity logging
 
-This document provides a high-level overview of how the Global Education Platform works. For technical details, please refer to the main README.md and codebase documentation.
+This document provides a high-level overview of how the ApplyNext Platform works. For technical details, please refer to the main README.md and codebase documentation.

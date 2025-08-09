@@ -49,8 +49,8 @@ const protectUser = async (req, res, next) => {
       });
     }
 
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Verify token with fallback secret
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret');
     
     // Get user from token
     const user = await User.findById(decoded.id).select('-password');

@@ -75,7 +75,7 @@ const AdminLogin = () => {
     try {
       // Admin credentials
       const adminCreds = {
-        email: 'admin@gmail.com',  // Hardcoded admin email
+        email: 'admin@admin.com',  // Hardcoded admin email
         password: 'admin123'      // Hardcoded admin password
       };
 
@@ -110,7 +110,7 @@ const AdminLogin = () => {
             Admin Access
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Sign in to manage the Global Education Platform
+            Sign in to manage the ApplyNext Platform
           </p>
         </div>
 

@@ -67,13 +67,13 @@ const registerUser = async (req, res) => {
       console.log('User saved successfully:', { id: savedUser._id });
 
       // Generate token only after successful save
-      const token = generateToken(savedUser._id, process.env.JWT_SECRET);
+      const token = generateToken(savedUser._id, process.env.JWT_SECRET || 'fallback-secret');
       console.log('Token generated for user:', { id: savedUser._id });
       
       // Set HTTP-only cookie
       setTokenCookie(res, token, false);
       
-      res.status(201).json({
+      res.status(200).json({
         success: true,
         message: 'User registered successfully',
         data: {
@@ -136,7 +136,7 @@ const loginUser = async (req, res) => {
     await user.save();
     console.log('Updated last login for user:', { id: user._id });
 
-    const token = generateToken(user._id, process.env.JWT_SECRET);
+    const token = generateToken(user._id, process.env.JWT_SECRET || 'fallback-secret');
     console.log('Generated token for user:', { id: user._id });
     
     // Set HTTP-only cookie

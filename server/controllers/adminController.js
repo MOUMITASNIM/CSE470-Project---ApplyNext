@@ -115,7 +115,14 @@ const deleteUser = async (req, res) => {
       });
     }
 
-    await user.remove();
+    // Clean up references (e.g., bookmarks)
+    await Course.updateMany(
+      { bookmarkedBy: user._id },
+      { $pull: { bookmarkedBy: user._id } }
+    );
+
+    // Delete the user using a supported method in Mongoose 7+
+    await User.deleteOne({ _id: user._id });
 
     res.json({
       success: true,
@@ -208,7 +215,8 @@ const deleteCourse = async (req, res) => {
       });
     }
 
-    await course.remove();
+    // Delete the course using a supported method in Mongoose 7+
+    await Course.deleteOne({ _id: course._id });
 
     res.json({
       success: true,

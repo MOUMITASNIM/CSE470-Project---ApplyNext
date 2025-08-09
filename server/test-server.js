@@ -23,7 +23,7 @@ app.post('/api/test-auth', async (req, res) => {
     const { email, password } = req.body;
     
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/global_education');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/applynext');
     
     // Import User model
     const User = require('./models/User');
